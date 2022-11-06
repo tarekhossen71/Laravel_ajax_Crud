@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -29,14 +30,10 @@ class CategoryController extends Controller
     /**
      * Category Resource Store
      * 
-     * @param Illuminate\Http\Request $request
+     * @param Illuminate\Http\CategoryRequest $request
      * @return Illuminate\Http\Response
      */
-    public function store(Request $request){
-        $request->validate([
-            'category_name' => ['required', 'string', 'min:2', 'max:100'],
-            'status'        => ['required', 'in:0,1']
-        ]);
+    public function store(CategoryRequest $request){
 
         Category::create([
             'category_name' => $request->category_name,
@@ -60,14 +57,10 @@ class CategoryController extends Controller
      * Category Resource Update
      * 
      * @param App\Model\Category $category
-     * @param Illuminate\Http\Request $request
+     * @param Illuminate\Http\CategoryRequest $request
      * @return Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category){
-        $request->validate([
-            'category_name' => ['required', 'string', 'min:2', 'max:100'],
-            'status'        => ['required', 'in:0,1']
-        ]);
+    public function update(CategoryRequest $request, Category $category){
 
         $category->update([
             'category_name' => $request->category_name,

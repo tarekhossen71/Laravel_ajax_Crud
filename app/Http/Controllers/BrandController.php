@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use Illuminate\Http\Request;
+use App\Http\Requests\BrandRequest;
 
 class BrandController extends Controller
 {
@@ -29,14 +30,10 @@ class BrandController extends Controller
     /**
      * Brand Resource Store
      * 
-     * @param Illuminate\Http\Request $request
+     * @param Illuminate\Http\BrandRequest $request
      * @return Illuminate\Http\Response
      */
-    public function store(Request $request){
-        $request->validate([
-            'brand_name' => ['required', 'string', 'min:2', 'max:100'],
-            'status'     => ['required', 'in:0,1']
-        ]);
+    public function store(BrandRequest $request){
 
         Brand::create([
             'brand_name' => $request->brand_name,
@@ -60,15 +57,11 @@ class BrandController extends Controller
      * Brand Resource Update
      * 
      * @param App\Model\Brand $brand
-     * @param Illuminate\Http\Request $request
+     * @param Illuminate\Http\BrandRequest $request
      * @return Illuminate\Http\Response
      */
-    public function update(Request $request, Brand $brand){
-        $request->validate([
-            'brand_name' => ['required', 'string', 'min:2', 'max:100'],
-            'status'        => ['required', 'in:0,1']
-        ]);
-
+    public function update(BrandRequest $request, Brand $brand){
+        
         $brand->update([
             'brand_name' => $request->brand_name,
             'status'        => $request->status,

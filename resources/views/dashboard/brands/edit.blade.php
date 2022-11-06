@@ -13,6 +13,7 @@
             <form action="{{ route('brand.update',$brand->id) }}" method="POST">
                 @csrf
                 @method('PUT')
+                <input type="hidden" name="update_id" value="{{ $brand->id }}">
                 <div class="mb-3">
                     <label for="brand_name" class="form-label">Brand Name</label>
                     <input type="text" name="brand_name" class="form-control" id="brand_name" value="{{ $brand->brand_name }}">

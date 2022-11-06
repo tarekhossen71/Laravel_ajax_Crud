@@ -23,9 +23,15 @@ class CategoryRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'category_name' => ['required', 'string', 'min:2', 'max:100'],
+        $rules = [
+            'category_name' => ['required', 'string', 'min:2', 'max:100', 'unique:categories,category_name'],
             'status'        => ['required', 'in:0,1']
         ];
+
+        if (isset(request()->update_id)) {
+            $rules['category_name'][4] = 'unique:categories,category_name,'.request()->update_id;
+        }
+
+        return $rules;
     }
 }

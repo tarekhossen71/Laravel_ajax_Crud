@@ -64,7 +64,7 @@ class BrandController extends Controller
         
         $brand->update([
             'brand_name' => $request->brand_name,
-            'status'        => $request->status,
+            'status'     => $request->status,
         ]);
 
         return back()->with('success', 'Brand has been updated!');

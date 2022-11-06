@@ -23,9 +23,15 @@ class BrandRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'brand_name' => ['required', 'string', 'min:2', 'max:100'],
+        $rules = [
+            'brand_name' => ['required', 'string', 'min:2', 'max:100','unique:brands,brand_name'],
             'status'     => ['required', 'in:0,1']
         ];
+
+        if(request()->update_id){
+            $rules['brand_name'][4] = 'unique:brands,brand_name,'.request()->update_id;
+        }
+
+        return $rules;
     }
 }

@@ -13,6 +13,7 @@
             <form action="{{ route('category.update',$category->id) }}" method="POST">
                 @csrf
                 @method('PUT')
+                <input type="hidden" name="update_id" value="{{ $category->id }}">
                 <div class="mb-3">
                     <label for="category_name" class="form-label">Category Name</label>
                     <input type="text" name="category_name" class="form-control" id="category_name" value="{{ $category->category_name }}">

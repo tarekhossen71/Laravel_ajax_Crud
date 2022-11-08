@@ -9,7 +9,7 @@
     <div class="card shadow">
         {{-- Alert --}}
         @include('dashboard.include.alert')
-        <form action="" method="POST">
+        <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-xl-8">
@@ -19,9 +19,7 @@
                                 <label for="product_name" class="form-label">Product Name</label>
                                 <input type="text" name="product_name" class="form-control" id="product_name" value="{{ old('product_name') }}">
                                 @error('product_name')
-                                    <span class="text-danger">
-                                        {{ $message }}
-                                    </span>
+                                    <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="mb-3">
@@ -44,7 +42,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="qty" class="form-label">Quantity</label>
-                                <input type="number" name="qty" class="form-control" id="qty" value="{{ old('qty') }}">
+                                <input type="text" name="qty" class="form-control" id="qty" value="{{ old('qty') }}">
                                 @error('qty')
                                     <span class="text-danger">
                                         {{ $message }}
@@ -53,7 +51,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="price" class="form-label">Price</label>
-                                <input type="number" name="price" class="form-control" id="price" value="{{ old('price') }}">
+                                <input type="text" name="price" class="form-control" id="price" value="{{ old('price') }}">
                                 @error('price')
                                     <span class="text-danger">
                                         {{ $message }}
@@ -77,7 +75,7 @@
                         <div class="card-body">
                             <div class="mb-3">
                                 <label for="brand" class="form-label">Brand</label>
-                                <select name="brand" class="form-select" id="brand">
+                                <select name="brand_id" class="form-select" id="brand">
                                     <option value="">-Select Brand-</option>
                                     @forelse ($data['brands'] as $brand)
                                         <option value="{{ $brand->id }}">{{ $brand->brand_name }}</option>
@@ -85,7 +83,7 @@
                                         <span class="text-danger">Sorry, Brand Not Found!</span>
                                     @endforelse
                                 </select>
-                                @error('brand')
+                                @error('brand_id')
                                     <span class="text-danger">
                                         {{ $message }}
                                     </span>
@@ -93,7 +91,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="category" class="form-label">Category</label>
-                                <select name="category" class="form-select" id="category">
+                                <select name="category_id" class="form-select" id="category">
                                     <option value="">-Select Category-</option>
                                     @forelse ($data['categories'] as $category)
                                         <option value="{{ $category->id }}">{{ $category->category_name }}</option>
@@ -101,7 +99,7 @@
                                         <span class="text-danger">Sorry, Brand Not Found!</span>
                                     @endforelse
                                 </select>
-                                @error('category')
+                                @error('category_id')
                                     <span class="text-danger">
                                         {{ $message }}
                                     </span>
@@ -121,7 +119,9 @@
                                 @enderror
                             </div>
                             <div class="text-end">
-                                <button type="submit" class="btn btn-sm btn-outline-primary">Create</button>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-sm btn-outline-primary">Create</button>
+                                </div>
                             </div>
                         </div>
                     </div>

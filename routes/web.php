@@ -50,8 +50,9 @@ Route::prefix('dashboard/categories')->name('category.')->group(function(){
 Route::prefix('dashboard/products')->name('product.')->group(function(){
     Route::get('/', [ProductController::class, 'index'])->name('index');
     Route::get('create', [ProductController::class, 'create'])->name('create');
-    Route::post('store', [CategoryController::class, 'store'])->name('store');
-    Route::get('{id}/edit', [CategoryController::class, 'edit'])->name('edit');
-    Route::put('{id}/update', [CategoryController::class, 'update'])->name('update');
-    Route::delete('{id}/destroy', [CategoryController::class, 'destroy'])->name('destroy');
+    Route::post('store', [ProductController::class, 'store'])->name('store');
+    Route::get('{product}/edit', [ProductController::class, 'edit'])->name('edit');
+    Route::put('{product}/update', [ProductController::class, 'update'])->name('update');
+    Route::delete('{product}/destroy', [ProductController::class, 'destroy'])->name('destroy');
+    Route::get('{product}/show', [ProductController::class, 'show'])->name('show');
 });

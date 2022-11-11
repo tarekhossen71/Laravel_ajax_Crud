@@ -46,13 +46,9 @@ class ProductController extends Controller
 
         // File Upload
         if ($request->hasFile('image')) {
-            $product_image = $request->file('image');
-            $imageExt = $product_image->getClientOriginalExtension();
-            $imageUniqueName = md5(time().rand()).'.'.$imageExt;
-            $product_image->move('products/images/', $imageUniqueName);
-
-            $data['image'] = $imageUniqueName;
+            $data['image'] = $this->file_upload($request->file('image'), 'products/images/');
         }
+
         Product::create($data);
 
         return back()->with('success', 'Product Has been created!');
@@ -77,7 +73,7 @@ class ProductController extends Controller
     /**
      * Product Resources Update
      * 
-     * @param App\Model\Product $products
+     * @param App\Model\Product $product
      * @return Illuminate\Http\ProductRequest $request
      * @return Illuminate\Http\Response
      */
@@ -85,20 +81,11 @@ class ProductController extends Controller
         $data = $request->except('_token');
         $data['product_slug'] = Str::slug($request->product_slug);
 
-        // File Upload
-        if ($request->hasFile('image')) {
-            if($product->image != null){
-                file_exists('products/images/'.$product->image) ? unlink('products/images/'.$product->image) : false;
-            }
-            $product_image = $request->file('image');
-            $imageExt = $product_image->getClientOriginalExtension();
-            $imageUniqueName = md5(time().rand()).'.'.$imageExt;
-            $product_image->move('products/images/', $imageUniqueName);
-
-            $data['image'] = $imageUniqueName;
+        if($request->hasFile('image')){
+            $data['image'] = $this->file_update($request->file('image'), 'products/images/', $product->image);
         }
-        $product->update($data);
 
+        $product->update($data);
 
         return back()->with('success', 'Product has been updated!');
     }
@@ -112,7 +99,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product){
         if($product->image != null){
-            file_exists('products/images/'.$product->image) ? unlink('products/images/'.$product->image) : false;
+            $this->file_remove('products/images/', $product->image);
         }
 
         $product->delete();

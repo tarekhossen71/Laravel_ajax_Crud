@@ -15,6 +15,7 @@
                 <th>Brand</th>
                 <th>Category</th>
                 <th>Product Name</th>
+                <th>Product Slug</th>
                 <th>Product Code</th>
                 <th>Quantity</th>
                 <th>Price</th>
@@ -30,6 +31,7 @@
                             <td>{{ $product->brand->brand_name }}</td>
                             <td>{{ $product->category->category_name }}</td>
                             <td>{{ $product->product_name }}</td>
+                            <td>{{ $product->product_slug }}</td>
                             <td>{{ $product->product_code }}</td>
                             <td>{{ $product->qty }}</td>
                             <td>{{ $product->price }}</td>

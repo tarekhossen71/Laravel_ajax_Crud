@@ -1,10 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BrandController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,3 +57,21 @@ Route::prefix('dashboard/products')->name('product.')->group(function(){
     Route::delete('{product}/destroy', [ProductController::class, 'destroy'])->name('destroy');
     Route::get('{product}/show', [ProductController::class, 'show'])->name('show');
 });
+Auth::routes();
+
+
+Route::group(['middleware'=>['auth']], function(){
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+});
+
+
+// Route::group(['middleware'=> ['auth', 'email_verify']], function(){
+//     Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile']);
+// });
+
+Route::middleware(['auth', 'email_verify'])->group(function(){
+    Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile']);
+    
+});
+
+Route::post('/file/upload', [App\Http\Controllers\HomeController::class, 'upload'])->name('file.upload');

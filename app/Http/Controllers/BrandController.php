@@ -3,8 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+use App\Mail\QueueMail;
+use App\Mail\BrandCreate;
+use App\Jobs\UserRegister;
 use Illuminate\Http\Request;
+use App\Events\BrandCreateMail;
+use App\Events\UserEvent;
+use App\Events\UserMailEvent;
+use App\Listeners\BrandSendMail;
 use App\Http\Requests\BrandRequest;
+use Illuminate\Support\Facades\Mail;
 
 class BrandController extends Controller
 {
@@ -34,6 +42,11 @@ class BrandController extends Controller
      * @return Illuminate\Http\Response
      */
     public function store(BrandRequest $request){
+        // $brand = $request->all();
+
+        // event(new BrandCreateMail($brand));
+
+        // Mail::to($mail)->send(new BrandCreate($brand));
 
         Brand::create([
             'brand_name' => $request->brand_name,
@@ -79,5 +92,18 @@ class BrandController extends Controller
     public function destroy(Brand $brand){
         $brand->delete();
         return back()->with('success', 'Brand has been deleted');
+    }
+
+    public function queue(){
+        return view('dashboard.brands.queue');
+    }
+
+    public function queueStore(Request $request){
+
+        event(new UserMailEvent($request->all()));
+
+        // UserRegister::dispatch($request->all())->delay(now()->addSeconds(10));
+
+        return back()->with('success', 'Queue Mail Send Success!');
     }
 }

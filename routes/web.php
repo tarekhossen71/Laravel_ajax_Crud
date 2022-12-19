@@ -1,11 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Mail\UserMail;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +21,7 @@ use App\Http\Controllers\CategoryController;
 */
 
 Route::get('/', function () {
+    // Mail::to('tarekhossen.offi@gmail.com')->send(new UserMail);
     return view('welcome');
 });
 
@@ -32,6 +35,9 @@ Route::group(['prefix' => 'dashboard/brands', 'as' => 'brand.'], function(){
     Route::get('{brand}/edit', [BrandController::class, 'edit'])->name('edit');
     Route::put('{brand}/update', [BrandController::class, 'update'])->name('update');
     Route::delete('{brand}/destroy', [BrandController::class, 'destroy'])->name('destroy');
+    // Queue
+    Route::get('queue', [BrandController::class, 'queue'])->name('queue');
+    Route::post('queue/store', [BrandController::class, 'queueStore'])->name('queue.store');
 });
 
 
@@ -74,4 +80,4 @@ Route::middleware(['auth', 'email_verify'])->group(function(){
     
 });
 
-Route::post('/file/upload', [App\Http\Controllers\HomeController::class, 'upload'])->name('file.upload');
+Route::post('file/upload', [App\Http\Controllers\HomeController::class, 'upload'])->name('file.upload');

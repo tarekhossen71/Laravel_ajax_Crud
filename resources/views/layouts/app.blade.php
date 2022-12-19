@@ -35,7 +35,7 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
-                        <img src="{{ asset('storage/profile/'.auth()->user()->avater) }}" width="40" alt="Avater">
+                        {{-- <img src="{{ asset('storage/profile/'.auth()->user()->avater) }}" width="40" alt="Avater"> --}}
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))

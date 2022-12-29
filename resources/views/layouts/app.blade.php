@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"/>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
@@ -50,6 +50,30 @@
                                 </li>
                             @endif
                         @else
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <i class="fa-solid fa-bell"></i>
+                                @if (auth()->user()->unreadNotifications->count() > 0)
+                                    <span class="badge bg-danger">{{ auth()->user()->unreadNotifications->count() }}</span>
+                                @endif
+                                
+                            </a>
+                            
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                @foreach (auth()->user()->unreadNotifications as $item)
+                                    <a class="dropdown-item" href="">
+                                        {{ $item->data['invoice_no'] }} -
+                                        {{ $item->data['price'] }} <br>
+                                        <small>{{ $item->data['product'] }}</small>
+                                    </a>
+                                @endforeach
+                                @if (auth()->user()->unreadNotifications->count() > 0)
+                                    <a class="dropdown-item text-primary" href="{{ url('mark-read') }}">Mark As Read</a>
+                                @endif
+                                
+                            </div>
+
+                        </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}

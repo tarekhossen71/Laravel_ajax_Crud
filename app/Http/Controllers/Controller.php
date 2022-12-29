@@ -25,17 +25,16 @@ class Controller extends BaseController
             if($old_file != null){
                 file_exists($folder.$old_file) ? unlink($folder.$old_file) : false;
             }
-            $product_image = $file;
-            $imageExt = $product_image->getClientOriginalExtension();
+            $imageExt = $file->getClientOriginalExtension();
             $imageUniqueName = md5(time().rand()).'.'.$imageExt;
-            $product_image->move($folder, $imageUniqueName);
+            $file->move($folder, $imageUniqueName);
 
             return $imageUniqueName;
     }
 
     // file remove 
     protected function file_remove($folder, $old_file){
-        file_exists($folder.$old_file) ? unlink('products/images/'.$old_file) : false;
+        file_exists($folder.$old_file) ? unlink($folder.$old_file) : false;
     }
 
 }

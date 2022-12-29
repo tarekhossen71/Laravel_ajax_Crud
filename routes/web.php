@@ -1,13 +1,17 @@
 <?php
 
+use App\Models\User;
+use App\Mail\UserMail;
+use App\Notifications\InvoicePad;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\AjaxCrudController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
-use App\Mail\UserMail;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +24,19 @@ use App\Mail\UserMail;
 |
 */
 
-Route::get('/', function () {
-    // Mail::to('tarekhossen.offi@gmail.com')->send(new UserMail);
-    return view('welcome');
+// Route::get('/', function () {
+//     // $data = [
+//     //     'product'   => 'Laptop',
+//     //     'invoice_no'    => 'INV-102',
+//     //     'price'    => 1200,
+//     // ];
+//     // User::find(2)->notify(new InvoicePad($data));
+//     return view('welcome');
+// });
+
+Route::get('mark-read',function(){
+    Auth::user()->unreadNotifications->markAsRead();
+    return back();
 });
 
 Route::get('dashboard', [AdminController::class, 'index']);
@@ -81,3 +95,18 @@ Route::middleware(['auth', 'email_verify'])->group(function(){
 });
 
 Route::post('file/upload', [App\Http\Controllers\HomeController::class, 'upload'])->name('file.upload');
+
+Route::get('ajax', [AjaxController::class, 'index'])->name('ajax.index');
+Route::post('ajax/store', [AjaxController::class, 'store'])->name('ajax.store');
+Route::post('ajax/show', [AjaxController::class, 'show'])->name('ajax.show');
+Route::post('ajax/destroy', [AjaxController::class, 'destroy'])->name('ajax.destroy');
+Route::post('ajax/edit', [AjaxController::class, 'edit'])->name('ajax.edit');
+Route::post('ajax/update', [AjaxController::class, 'update'])->name('ajax.update');
+Route::post('ajax/borad-select', [AjaxController::class, 'boardSelect'])->name('ajax.borad-select');
+
+Route::get('/students', [AjaxCrudController::class, 'index'])->name('students.index');
+Route::post('/store', [AjaxCrudController::class, 'store'])->name('students.store');
+Route::post('/show', [AjaxCrudController::class, 'show'])->name('students.show');
+Route::post('/edit', [AjaxCrudController::class, 'edit'])->name('students.edit');
+Route::post('/update', [AjaxCrudController::class, 'update'])->name('students.update');
+Route::post('/destroy', [AjaxCrudController::class, 'destroy'])->name('students.destroy');
